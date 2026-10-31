@@ -717,7 +717,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 		{"list",no_argument,NULL,'l'},
 		{"model",required_argument,NULL,'m'},
 		{"port",required_argument,NULL,'P'},
-		{"password",optional_argument,NULL,'p'},
+		{"password",required_argument,NULL,'p'},
 		{"quiet",no_argument,NULL,'q'},
 		{"safe",no_argument,NULL,'s'},
 		{"test",no_argument,NULL,'t'},

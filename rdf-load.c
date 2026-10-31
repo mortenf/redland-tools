@@ -292,7 +292,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 		{0,0,0,0}};
 	const char *opts_short="?Bb:C:c:D:d:h:i:m:knP:p:qu:v";
 	int i=1;
-	char c;
+	int c;
 	char *buffer;
 	int ttypasswd=1;
 
@@ -319,6 +319,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 
 	while ((c=getopt_long(argc,argv,opts_short,opts_long,&i))!=-1)
 	{
+		buffer=NULL;
 		if (optarg)
 		{
 			buffer=(char*)malloc(strlen(optarg)+1);
@@ -414,6 +415,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				opts.quiet=1;
 				break;
 			case 'u':
+				free(opts.user);
 				opts.user=buffer;
 				break;
 			case 'v':

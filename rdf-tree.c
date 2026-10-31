@@ -379,14 +379,14 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 		{"help",no_argument,NULL,'?'},
 		{"cbd",no_argument,NULL,'C'},
 		{"context",required_argument,NULL,'c'},
-		{"database",required_argument,NULL,'s'},
+		{"database",required_argument,NULL,'D'},
 		{"directory",required_argument,NULL,'d'},
 		{"host",required_argument,NULL,'h'},
 		{"level",required_argument,NULL,'l'},
 		{"model",required_argument,NULL,'m'},
 		{"output",required_argument,NULL,'o'},
 		{"port",required_argument,NULL,'P'},
-		{"password",optional_argument,NULL,'p'},
+		{"password",required_argument,NULL,'p'},
 		{"quiet",no_argument,NULL,'q'},
 		{"type",no_argument,NULL,'t'},
 		{"user",required_argument,NULL,'u'},
@@ -394,7 +394,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 		{0,0,0,0}};
 	const char *opts_short="?Cc:D:d:h:l:m:o:P:p:qtu:v";
 	int i=1;
-	char c;
+	int c;
 	char *buffer;
 	int ttypasswd=1;
 
@@ -419,6 +419,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 
 	while ((c=getopt_long(argc,argv,opts_short,opts_long,&i))!=-1)
 	{
+		buffer=NULL;
 		if (optarg)
 		{
 			buffer=malloc(strlen(optarg)+1);
@@ -448,14 +449,17 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 			case 'D':
 				free(opts.directory);
 				opts.directory=0;
+				free(opts.database);
 				opts.database=buffer;
 				break;
 			case 'd':
 				free(opts.database);
 				opts.database=0;
+				free(opts.directory);
 				opts.directory=buffer;
 				break;
 			case 'h':
+				free(opts.host);
 				opts.host=buffer;
 				break;
 			case 'l':
@@ -463,6 +467,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				opts.level=atoi(optarg);
 				break;
 			case 'm':
+				free(opts.model);
 				opts.model=buffer;
 				break;
 			case 'o':
@@ -484,6 +489,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				opts.type=1;
 				break;
 			case 'u':
+				free(opts.user);
 				opts.user=buffer;
 				break;
 			case 'v':
