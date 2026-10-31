@@ -5,7 +5,7 @@
  *
  * See: http://www.wasab.dk/morten/blog/archives/2005/03/20/redland-smushing
  *
- * Copyright (C) 2003-2014 Morten Frederiksen - http://purl.org/net/morten/
+ * Copyright (C) 2003-2026 Morten Frederiksen - http://purl.org/net/morten/
  *
  * and
  *
@@ -31,7 +31,7 @@
 #include <redland.h>
 #include <time.h>
 
-const char *VERSION="0.22";
+const char *VERSION="0.23";
 
 struct options
 {
@@ -68,7 +68,6 @@ int main(int argc,char *argv[])
 	librdf_model *model;
 	librdf_storage *tempstorage;
 	librdf_model *tempmodel;
-	int argnum;
 	char *storage_type;
 	char *storage_options;
 	char *t0;
@@ -85,7 +84,7 @@ int main(int argc,char *argv[])
 	librdf_world_open(world);
 
 	/* Parse command line options (if possible) and check for context. */
-	argnum=getoptions(argc,argv,world);
+	getoptions(argc,argv,world);
 
 	/* Set storage options. */
 	if (opts.database) {
@@ -709,7 +708,8 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 	struct option opts_long[]={
 		{"help",no_argument,NULL,'?'},
 		{"bulk",no_argument,NULL,'B'},
-		{"database",required_argument,NULL,'s'},
+		{"context",required_argument,NULL,'c'},
+		{"database",required_argument,NULL,'D'},
 		{"directory",required_argument,NULL,'d'},
 		{"fp",required_argument,NULL,'f'},
 		{"host",required_argument,NULL,'h'},
@@ -724,9 +724,9 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 		{"user",required_argument,NULL,'u'},
 		{"version",no_argument,NULL,'v'},
 		{0,0,0,0}};
-	const char *opts_short="?BC:c:D:d:f:h:i:lm:P:p:qstu:v";
+	const char *opts_short="?Bc:D:d:f:h:i:lm:P:p:qstu:v";
 	int i=1;
-	char c;
+	int c;
 	char *buffer;
 	int ttypasswd=1;
 
@@ -753,6 +753,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 
 	while ((c=getopt_long(argc,argv,opts_short,opts_long,&i))!=-1)
 	{
+		buffer=NULL;
 		if (optarg)
 		{
 			buffer=malloc(strlen(optarg)+1);
@@ -787,11 +788,13 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 			case 'D':
 				free(opts.directory);
 				opts.directory=0;
+				free(opts.database);
 				opts.database=buffer;
 				break;
 			case 'd':
 				free(opts.database);
 				opts.database=0;
+				free(opts.directory);
 				opts.directory=buffer;
 				break;
 			case 'f':
@@ -802,6 +805,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				free(buffer);
 				break;
 			case 'h':
+				free(opts.host);
 				opts.host=buffer;
 				break;
 			case 'i':
@@ -815,6 +819,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				opts.list=1;
 				break;
 			case 'm':
+				free(opts.model);
 				opts.model=buffer;
 				break;
 			case 'P':
@@ -835,6 +840,7 @@ int getoptions(int argc,char *argv[],librdf_world *world)
 				opts.test=1;
 				break;
 			case 'u':
+				free(opts.user);
 				opts.user=buffer;
 				break;
 			case 'v':
