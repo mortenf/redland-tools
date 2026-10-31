@@ -22,7 +22,6 @@ Smush a persistent Redland storage by owl:IFP's and owl:FP's.
 
 Retrieve statements from persistent Redland storage.
 
-## 
 # License
 
 See [https://github.com/dajobe/librdf](https://github.com/dajobe/librdf).
