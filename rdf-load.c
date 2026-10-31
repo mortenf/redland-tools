@@ -29,7 +29,7 @@
 #include <unistd.h>
 #include <time.h>
 
-const char *VERSION="0.10";
+const char *VERSION="0.11";
 
 struct options
 {

@@ -27,7 +27,7 @@
 #include <redland.h>
 #include <openssl/lhash.h>
 
-const char *VERSION="0.15";
+const char *VERSION="0.16";
 
 struct options
 {

@@ -31,7 +31,7 @@
 #include <redland.h>
 #include <time.h>
 
-const char *VERSION="0.23";
+const char *VERSION="0.24";
 
 struct options
 {
